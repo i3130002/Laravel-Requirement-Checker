@@ -10,11 +10,11 @@
  * @author Emerson Carvalho 
  * @version 0.0.1
  */
-$latestLaravelVersion = '5.4';
+$latestLaravelVersion = '5.6';
 
 $laravelVersion = (isset($_GET['v'])) ? (string) $_GET['v'] : $latestLaravelVersion;
 
-if(!in_array($laravelVersion, array('4.2', '5.0', '5.1', '5.2', '5.3', '5.4'))) {
+if(!in_array($laravelVersion, array('4.2', '5.0', '5.1', '5.2', '5.3', '5.4','5.6'))) {
     $laravelVersion = $latestLaravelVersion;
 }
 
@@ -85,6 +85,30 @@ $reqList = array(
         'xml' => true, 
         'obs' => ''
     ),
+     '5.5' => array(
+        'php' => '7.1.3',
+        'mcrypt' => false, 
+        'openssl' => true, 
+        'pdo' => true, 
+        'mbstring' => true, 
+        'tokenizer' => true, 
+        'xml' => true, 
+        'Ctype' => false, 
+        'JSON' => false,  
+        'obs' => ''
+    ),
+     '5.6' => array(
+        'php' => '7.1.3',
+        'mcrypt' => false, 
+        'openssl' => true, 
+        'pdo' => true, 
+        'mbstring' => true, 
+        'tokenizer' => true, 
+        'xml' => true, 
+        'Ctype' => true, 
+        'JSON' => true,  
+        'obs' => ''
+    ),
 );
 
 
@@ -117,6 +141,12 @@ $requirements['xml_enabled'] = extension_loaded("xml");
 
 // Mcrypt
 $requirements['mcrypt_enabled'] = extension_loaded("mcrypt_encrypt");
+
+// Ctype
+$requirements['ctype_enabled'] = extension_loaded("ctype");
+
+// JSON 
+$requirements['json_enabled'] = extension_loaded("json");
 
 // mod_rewrite
 $requirements['mod_rewrite_enabled'] = null;
@@ -185,7 +215,9 @@ if ( function_exists('apache_get_modules') )
         
         <form action="?" method="get" />
             <select name="v" onchange="this.form.submit()">
-                <option value="5.4" <?php echo ($laravelVersion == '5.4') ? 'selected' : '' ?> >Laravel 5.4 Latest</option>
+                <option value="5.6" <?php echo ($laravelVersion == '5.6') ? 'selected' : '' ?> >Laravel 5.6 Latest</option
+                <option value="5.5" <?php echo ($laravelVersion == '5.5') ? 'selected' : '' ?> >Laravel 5.5</option>
+                <option value="5.4" <?php echo ($laravelVersion == '5.4') ? 'selected' : '' ?> >Laravel 5.4</option>
                 <option value="5.3" <?php echo ($laravelVersion == '5.3') ? 'selected' : '' ?> >Laravel 5.3</option>
                 <option value="5.2" <?php echo ($laravelVersion == '5.2') ? 'selected' : '' ?> >Laravel 5.2</option>
                 <option value="5.1" <?php echo ($laravelVersion == '5.1') ? 'selected' : '' ?> >Laravel 5.1</option>
@@ -227,6 +259,14 @@ if ( function_exists('apache_get_modules') )
             <p>Mcrypt PHP Extension <?php echo $requirements['mcrypt_enabled'] ? $strOk : $strFail; ?></p>
         <?php endif ?>
 
+        <?php if($reqList[$laravelVersion]['ctype']) : ?>
+            <p>Mcrypt PHP Extension <?php echo $requirements['ctype_enabled'] ? $strOk : $strFail; ?></p>
+        <?php endif ?>
+       
+        <?php if($reqList[$laravelVersion]['json']) : ?>
+            <p>Mcrypt PHP Extension <?php echo $requirements['json_enabled'] ? $strOk : $strFail; ?></p>
+        <?php endif ?>
+    
         <?php if(!empty($reqList[$laravelVersion]['obs'])): ?>
             <p class="obs"><?php echo $reqList[$laravelVersion]['obs'] ?></p>
         <?php endif; ?>
